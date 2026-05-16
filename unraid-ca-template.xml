@@ -8,7 +8,7 @@
   <Support>https://github.com/cmalec/tidbyt-unraid/issues</Support>
   <Project>https://github.com/cmalec/tidbyt-unraid</Project>
   <Overview>
-    Display live Unraid server metrics on your Tidbyt device. Uses the official Unraid GraphQL API (Unraid 6.12+) and
+    Display live Unraid server metrics on your Tidbyt device. Uses the official Unraid GraphQL API (Unraid 7.2+) and
     pushes directly to your Tidbyt over WiFi.
   </Overview>
   <Category>Tools: Status:Stable</Category>

@@ -38,7 +38,7 @@ Probably want to keep it to 3–4 metrics for readability.
 
 ### 1. Prerequisites
 
-- Unraid server running 6.12+ (native GraphQL API)
+- Unraid server running 7.2+ (native GraphQL API)
 - Tidbyt device set up and connected
 - Docker enabled/installed
 
@@ -51,7 +51,7 @@ Probably want to keep it to 3–4 metrics for readability.
 
 **Unraid:**
 
-- Unraid 6.12+ exposes a native GraphQL API at `https://tower.local/graphql`
+- Unraid 7.2+ exposes a native GraphQL API at `https://tower.local/graphql`
 - Generate an API key in **Settings → Management Access → API Keys** in the Unraid web UI
 
 ### 3. Run with Docker Compose
