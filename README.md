@@ -157,14 +157,3 @@ docker run --rm -it --env-file .env tidbyt-unraid:latest
 **Self-signed certificate errors:**
 
 - The app disables SSL verification for Unraid connections (Unraid uses self-signed certs by default)
-
-## License
-
-MIT
-
-git checkout --orphan new-branch
-git add -A
-git commit -m "Initial commit"
-git branch -D main
-git branch -m main
-git push -f origin main
