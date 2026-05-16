@@ -38,6 +38,9 @@ The renderer dynamically scales fonts to fit your chosen metrics. Fewer metrics 
 - 3 metrics → top half + bottom row split
 - 4 metrics → 2×2 grid
 
+## Display Example
+<img src="assets/example.jpg" alt="4-metric grid layout" width="45%" />
+
 ## Quick Start
 
 ### 1. Prerequisites
@@ -112,38 +115,25 @@ Or manually add as a custom Docker container with the variables above.
 
 ## Customizing Metrics
 
-To change what appears on your Tidbyt, edit the `METRICS` environment variable. It's a comma-separated list with no spaces.
+To change what appears on your Tidbyt, edit the `METRICS` environment variable. It's a comma-separated list with no spaces. After changing `METRICS`, restart the container. The layout auto-scales with 1 metric → full screen, 2 metrics → side by side, 3 metrics → top half + bottom row split, 4 metrics → 2×2 grid. 
 
-**Examples:**
+## Example Logs
 
-```bash
-# Default: CPU, RAM, array, uptime
-METRICS=cpu,ram,array,uptime
+```shell
+==================================================
+Tidbyt Unraid Monitor
+==================================================
+Unraid URL: http://ip.example
+Tidbyt Device: your-device-id
+Update interval: 3600s
+Metrics: cpu, ram, docker, vms
+==================================================
+Fetching Unraid metrics...
+Rendering image...
+Pushing to Tidbyt...
+Push result: {}
+Sleeping 3600s...
 
-# Minimal: just CPU and RAM
-METRICS=cpu,ram
-
-# Full dashboard: everything
-METRICS=cpu,ram,array,temps,docker,vms,uptime
-
-# Docker-focused
-METRICS=cpu,ram,docker,array
-```
-
-After changing `METRICS`, restart the container:
-
-```bash
-docker-compose restart tidbyt-unraid
-```
-
-The layout auto-scales. With 1-2 metrics you get large readable text. With 5+ it compacts down to fit everything. Percentage metrics (`cpu`, `ram`, `array`) show a colored mini
-bar. Non-percentage metrics (`docker`, `vms`, `uptime`, `network`, `temps`) show the value only.
-
-## Building Locally
-
-```bash
-docker build -t tidbyt-unraid:latest .
-docker run --rm -it --env-file .env tidbyt-unraid:latest
 ```
 
 ## Troubleshooting
@@ -151,7 +141,7 @@ docker run --rm -it --env-file .env tidbyt-unraid:latest
 **Connection refused to Unraid:**
 
 - Verify `UNRAID_URL` points to your Unraid server (default: `https://tower.local`)
-- Ensure the API key is valid in **Tools → API Keys**
+- Ensure the API key is valid in **Settings → Management Access → API Keys**
 
 **Push fails:**
 

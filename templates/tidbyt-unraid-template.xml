@@ -27,5 +27,5 @@
   <Config Name="Metrics" Target="METRICS" Default="cpu,ram,array,uptime" Mode="" Description="Comma-separated, max 4: cpu,ram,array,temps,docker,vms,uptime,network" Type="Variable" Display="always" Required="false" Mask="false"/>
   <Config Name="Temperature Unit" Target="TEMP_UNIT" Default="F" Mode="" Description="C or F" Type="Variable" Display="always" Required="false" Mask="false"/>
   <Config Name="Timezone" Target="TZ" Default="America/Los_Angeles" Mode="" Description="Timezone for logs" Type="Variable" Display="advanced" Required="false" Mask="false"/>
-  <Screenshot>https://raw.githubusercontent.com/cmalec/tidbyt-unraid/main/assets/photo.jpg</Screenshot>
+  <Screenshot>https://raw.githubusercontent.com/cmalec/tidbyt-unraid/main/assets/example.jpg</Screenshot>
 </Container>
