@@ -37,7 +37,7 @@ def _format_uptime(seconds: int) -> str:
 
 
 def _active_metrics(metrics: dict) -> list:
-    """Return list of (metric_key, label, value, color, bar_pct) for enabled metrics."""
+    """Return list of (metric_key, label, value, color) for enabled metrics."""
     items = []
     system = metrics.get("system", {})
     array = metrics.get("array", {})
@@ -45,12 +45,12 @@ def _active_metrics(metrics: dict) -> list:
     if "cpu" in config.METRICS:
         cpu = system.get("cpu", {})
         load = cpu.get("percentLoad", 0)
-        items.append(("cpu", "CPU", f"{load}%", COLOR_CPU, load))
+        items.append(("cpu", "CPU", f"{load}%", COLOR_CPU))
 
     if "ram" in config.METRICS:
         mem = system.get("memory", {})
         pct = mem.get("percent", 0)
-        items.append(("ram", "RAM", f"{pct}%", COLOR_RAM, pct))
+        items.append(("ram", "RAM", f"{pct}%", COLOR_RAM))
 
     if "array" in config.METRICS:
         state = array.get("state", "UNKNOWN")
@@ -65,7 +65,7 @@ def _active_metrics(metrics: dict) -> list:
             color = COLOR_ARRAY_ERR
         else:
             color = COLOR_ARRAY_WARN
-        items.append(("array", "ARR", f"{pct}%", color, pct))
+        items.append(("array", "ARR", f"{pct}%", color))
 
     if "temps" in config.METRICS:
         avg_temp = 0
@@ -84,104 +84,87 @@ def _active_metrics(metrics: dict) -> list:
                 unit = "F"
             else:
                 unit = "C"
-            items.append(("temps", "TMP", f"{avg_temp}{unit}", COLOR_TEMP, None))
+            items.append(("temps", "TMP", f"{avg_temp}{unit}", COLOR_TEMP))
 
     if "docker" in config.METRICS:
         containers = metrics.get("docker", [])
         running = sum(1 for c in containers if c.get("state") == "running")
         total = len(containers)
-        items.append(("docker", "DKR", f"{running}/{total}", COLOR_RAM, None))
+        items.append(("docker", "DKR", f"{running}/{total}", COLOR_RAM))
 
     if "vms" in config.METRICS:
         vms = metrics.get("vms", [])
         running = sum(1 for v in vms if v.get("state") == "running")
         total = len(vms)
-        items.append(("vms", "VM", f"{running}/{total}", COLOR_CPU, None))
+        items.append(("vms", "VM", f"{running}/{total}", COLOR_CPU))
 
     if "uptime" in config.METRICS:
         uptime_sec = system.get("uptime", 0)
         uptime_str = _format_uptime(uptime_sec)
-        items.append(("uptime", "UP", uptime_str, COLOR_UPTIME, None))
+        items.append(("uptime", "UP", uptime_str, COLOR_UPTIME))
 
     if "network" in config.METRICS:
         net = metrics.get("network", {})
         host = net.get("hostname", "")[:10]
         if host:
-            items.append(("network", host, "", COLOR_UPTIME, None))
+            items.append(("network", host, "", COLOR_UPTIME))
 
-    return items
+    return items[:4]
 
 
 def render(metrics: dict) -> bytes:
-    """Render metrics into a 64x32 WebP image, dynamically sized to fit all enabled metrics."""
+    """Render metrics into a 64x32 WebP image using a grid layout."""
     items = _active_metrics(metrics)
     count = len(items)
-
-    if count == 0:
-        # Nothing to show
-        img = Image.new("RGB", (WIDTH, HEIGHT), COLOR_BG)
-        buf = io.BytesIO()
-        img.save(buf, format="WEBP", quality=80)
-        return buf.getvalue()
-
-    # Dynamic sizing based on item count
-    if count == 1:
-        label_size, value_size = 10, 14
-        label_offset = 2
-        value_offset = 28
-        bar_y_offset = 4
-        bar_height = 6
-    elif count <= 2:
-        label_size, value_size = 8, 10
-        label_offset = 2
-        value_offset = 24
-        bar_y_offset = 3
-        bar_height = 5
-    elif count <= 3:
-        label_size, value_size = 7, 8
-        label_offset = 2
-        value_offset = 22
-        bar_y_offset = 3
-        bar_height = 4
-    elif count <= 5:
-        label_size, value_size = 5, 6
-        label_offset = 1
-        value_offset = 18
-        bar_y_offset = 2
-        bar_height = 3
-    else:
-        label_size, value_size = 4, 5
-        label_offset = 0
-        value_offset = 16
-        bar_y_offset = 1
-        bar_height = 2
-
-    line_height = HEIGHT // count
-
-    label_font = _get_font(label_size)
-    value_font = _get_font(value_size)
 
     img = Image.new("RGB", (WIDTH, HEIGHT), COLOR_BG)
     draw = ImageDraw.Draw(img)
 
-    for idx, (key, label, value, color, bar_pct) in enumerate(items):
-        y = idx * line_height
+    if count == 0:
+        buf = io.BytesIO()
+        img.save(buf, format="WEBP", quality=80)
+        return buf.getvalue()
 
-        # Draw label
-        draw.text((label_offset, y), label, fill=color, font=label_font)
+    if count == 1:
+        cells = [(0, 0, WIDTH, HEIGHT)]
+        label_size, value_size = 16, 20
+    elif count == 2:
+        cells = [(0, 0, WIDTH // 2, HEIGHT), (WIDTH // 2, 0, WIDTH // 2, HEIGHT)]
+        label_size, value_size = 10, 14
+    elif count == 3:
+        cells = [
+            (0, 0, WIDTH, HEIGHT // 2),
+            (0, HEIGHT // 2, WIDTH // 2, HEIGHT // 2),
+            (WIDTH // 2, HEIGHT // 2, WIDTH // 2, HEIGHT // 2),
+        ]
+        label_size, value_size = 8, 10
+    else:
+        cells = [
+            (0, 0, WIDTH // 2, HEIGHT // 2),
+            (WIDTH // 2, 0, WIDTH // 2, HEIGHT // 2),
+            (0, HEIGHT // 2, WIDTH // 2, HEIGHT // 2),
+            (WIDTH // 2, HEIGHT // 2, WIDTH // 2, HEIGHT // 2),
+        ]
+        label_size, value_size = 7, 8
 
-        # Draw value (if any)
-        if value:
-            draw.text((value_offset, y), value, fill=COLOR_TEXT, font=value_font)
+    label_font = _get_font(label_size)
+    value_font = _get_font(value_size)
 
-        # Draw progress bar (if percentage provided)
-        if bar_pct is not None:
-            bar_w = int((bar_pct / 100) * 20)
-            bar_y = y + bar_y_offset
-            draw.rectangle(
-                [44, bar_y, 44 + bar_w, bar_y + bar_height],
-                fill=color
-            )
+    for idx, (key, label, value, color) in enumerate(items):
+        x, y, w, h = cells[idx]
+        if label_font:
+            label_bbox = draw.textbbox((0, 0), label, font=label_font)
+            label_w = label_bbox[2] - label_bbox[0]
+            label_x = x + (w - label_w) // 2
+            label_y = y + 1
+            draw.text((label_x, label_y), label, fill=color, font=label_font)
+        if value and value_font:
+            value_bbox = draw.textbbox((0, 0), value, font=value_font)
+            value_w = value_bbox[2] - value_bbox[0]
+            value_h = value_bbox[3] - value_bbox[1]
+            value_x = x + (w - value_w) // 2
+            value_y = y + h - value_h - 1
+            draw.text((value_x, value_y), value, fill=COLOR_TEXT, font=value_font)
 
     buf = io.BytesIO()
     img.save(buf, format="WEBP", quality=80)

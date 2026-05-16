@@ -24,7 +24,7 @@
   <Config Name="Tidbyt Device ID" Target="TIDBYT_DEVICE_ID" Default="" Mode="" Description="Your Tidbyt device ID (from Tidbyt app)" Type="Variable" Display="always" Required="true" Mask="false"/>
   <Config Name="Tidbyt API Key" Target="TIDBYT_API_KEY" Default="" Mode="" Description="Your Tidbyt API key (from Tidbyt app settings)" Type="Variable" Display="always" Required="true" Mask="true"/>
   <Config Name="Update Interval" Target="UPDATE_INTERVAL" Default="3600" Mode="" Description="Seconds between updates (default 1hr)" Type="Variable" Display="always" Required="false" Mask="false"/>
-  <Config Name="Metrics" Target="METRICS" Default="cpu,ram,array,uptime" Mode="" Description="Comma-separated: cpu,ram,array,temps,docker,vms,uptime,network" Type="Variable" Display="always" Required="false" Mask="false"/>
+  <Config Name="Metrics" Target="METRICS" Default="cpu,ram,array,uptime" Mode="" Description="Comma-separated, max 4: cpu,ram,array,temps,docker,vms,uptime,network" Type="Variable" Display="always" Required="false" Mask="false"/>
   <Config Name="Temperature Unit" Target="TEMP_UNIT" Default="F" Mode="" Description="C or F" Type="Variable" Display="always" Required="false" Mask="false"/>
   <Config Name="Timezone" Target="TZ" Default="America/Los_Angeles" Mode="" Description="Timezone for logs" Type="Variable" Display="advanced" Required="false" Mask="false"/>
   <Screenshot>https://raw.githubusercontent.com/cmalec/tidbyt-unraid/main/assets/photo.jpg</Screenshot>

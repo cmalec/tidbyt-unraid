@@ -7,32 +7,36 @@ A self-contained Docker app that displays Unraid server metrics on your [Tidbyt]
 - **Fully local** — runs entirely on your Unraid server (or any Docker host)
 - **No cloud dependencies** — pushes directly to your Tidbyt over WiFi
 - **Customizable metrics** — choose what to display and how often
-- **Auto-scaling layout** — fonts and bars resize dynamically based on how many metrics you enable
+- **Auto-scaling layout** — fonts resize dynamically based on how many metrics you enable
 - **Auto-updating** — refreshes on your chosen interval
 
 ## How It Works
 
 1. **Fetch** — The container queries your Unraid's native GraphQL API for the metrics you've enabled
-2. **Render** — It builds a 64x32 WebP image using PIL: metric label on the left, value on the right, mini progress bars for percentage-based metrics
+2. **Render** — It builds a 64x32 WebP image using PIL: metric labels and values in a centered grid layout
 3. **Push** — The image is pushed to your Tidbyt device via Tidbyt's HTTP API
 4. **Repeat** — Sleeps for `UPDATE_INTERVAL` seconds and does it again
 
-The renderer dynamically scales fonts and bars to fit your chosen metrics. Fewer metrics = bigger text. More metrics = compact layout.
+The renderer dynamically scales fonts to fit your chosen metrics. Fewer metrics = bigger text. More metrics = compact layout.
 
 ## Supported Metrics
 
-| Metric    | Label      | Description                 | Bar              |
-|-----------|------------|-----------------------------|------------------|
-| `cpu`     | CPU        | CPU load percentage         | Green            |
-| `ram`     | RAM        | RAM usage percentage        | Cyan             |
-| `array`   | ARR        | Array state + capacity used | Green/Orange/Red |
-| `temps`   | TMP        | Average disk temperature    | Yellow           |
-| `docker`  | DKR        | Running / total containers  | —                |
-| `vms`     | VM         | Running / total VMs         | —                |
-| `uptime`  | UP         | Server uptime (e.g. `5d3h`) | —                |
-| `network` | *hostname* | Short hostname display      | —                |
+| Metric    | Label      | Description                 |
+|-----------|------------|-----------------------------|
+| `cpu`     | CPU        | CPU load percentage         |
+| `ram`     | RAM        | RAM usage percentage        |
+| `array`   | ARR        | Array state + capacity used |
+| `temps`   | TMP        | Average disk temperature    |
+| `docker`  | DKR        | Running / total containers  |
+| `vms`     | VM         | Running / total VMs         |
+| `uptime`  | UP         | Server uptime (e.g. `5d3h`) |
+| `network` | *hostname* | Short hostname display      |
 
-Probably want to keep it to 3–4 metrics for readability.
+**Note:** Only the first 4 metrics are displayed. The renderer uses a grid layout:
+- 1 metric → full screen
+- 2 metrics → side by side
+- 3 metrics → top half + bottom row split
+- 4 metrics → 2×2 grid
 
 ## Quick Start
 

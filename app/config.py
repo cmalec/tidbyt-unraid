@@ -11,6 +11,10 @@ try:
 except ValueError:
     raise ValueError(f"UPDATE_INTERVAL must be an integer, got: {_update_interval_raw!r}")
 METRICS = [m.strip().lower() for m in os.getenv("METRICS", "cpu,ram,array,uptime").split(",")]
+if len(METRICS) > 4:
+    import warnings
+    warnings.warn(f"METRICS limited to 4 items for grid layout; ignoring {METRICS[4:]}")
+    METRICS = METRICS[:4]
 TEMP_UNIT = os.getenv("TEMP_UNIT", "F").upper()
 
 # Validate
