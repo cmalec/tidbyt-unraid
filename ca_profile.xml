@@ -1,0 +1,14 @@
+<CommunityApplications>
+    <Profile>
+        **Tidbyt Unraid Monitor** — Display live server metrics on your Tidbyt device.
+
+        This repository contains a self-contained Docker app that fetches metrics from your Unraid server via the native GraphQL API (Unraid 7.2+) and pushes them directly to your Tidbyt over WiFi.
+
+        **Included apps:**
+        - `tidbyt-unraid` — Unraid server metrics dashboard for Tidbyt
+
+        **Support:** Open an issue on GitHub or post in the Unraid CA support thread.
+    </Profile>
+    <Icon>https://raw.githubusercontent.com/cmalec/tidbyt-unraid/main/assets/tidbyt-unraid.png</Icon>
+    <WebPage>https://github.com/cmalec/tidbyt-unraid</WebPage>
+</CommunityApplications>

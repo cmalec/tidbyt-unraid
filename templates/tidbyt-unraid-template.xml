@@ -3,7 +3,7 @@
   <Name>tidbyt-unraid</Name>
   <Repository>ghcr.io/cmalec/tidbyt-unraid:latest</Repository>
   <Registry>https://ghcr.io</Registry>
-  <TemplateURL>https://raw.githubusercontent.com/cmalec/tidbyt-unraid/main/unraid-ca-template.xml</TemplateURL>
+  <TemplateURL>https://raw.githubusercontent.com/cmalec/tidbyt-unraid/main/templates/tidbyt-unraid-template.xml</TemplateURL>
   <Network>bridge</Network>
   <Privileged>false</Privileged>
   <Support>https://github.com/cmalec/tidbyt-unraid/issues</Support>
@@ -16,6 +16,7 @@
     Display live Unraid server metrics on your Tidbyt device. Uses the official Unraid GraphQL API (Unraid 7.2+) and
     pushes directly to your Tidbyt over WiFi.
   </Description>
+  <MinVer>7.2</MinVer>
   <Category>Other</Category>
   <Icon>https://raw.githubusercontent.com/cmalec/tidbyt-unraid/main/assets/tidbyt-unraid.png</Icon>
   <Config Name="Unraid URL" Target="UNRAID_URL" Default="" Mode="" Description="Your Unraid server URL (e.g. https://tower.local or http://192.168.1.100)" Type="Variable" Display="always" Required="true" Mask="false"/>
@@ -26,4 +27,5 @@
   <Config Name="Metrics" Target="METRICS" Default="cpu,ram,array,uptime" Mode="" Description="Comma-separated: cpu,ram,array,temps,docker,vms,uptime,network" Type="Variable" Display="always" Required="false" Mask="false"/>
   <Config Name="Temperature Unit" Target="TEMP_UNIT" Default="F" Mode="" Description="C or F" Type="Variable" Display="always" Required="false" Mask="false"/>
   <Config Name="Timezone" Target="TZ" Default="America/Los_Angeles" Mode="" Description="Timezone for logs" Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Screenshot>https://raw.githubusercontent.com/cmalec/tidbyt-unraid/main/assets/photo.jpg</Screenshot>
 </Container>
