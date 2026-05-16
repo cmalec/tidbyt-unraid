@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  tidbyt-unraid:
+    image: ${TS_NET}/cmalec/tidbyt-unraid:latest
+    container_name: tidbyt-unraid
+    restart: unless-stopped
+    environment:
+      # Required: Your Unraid server URL (default HTTPS port 443)
+      - UNRAID_URL=${UNRAID_URL:-https://tower.local}
+      # Required: Unraid API key (from Settings → Management Access → API Keys in Unraid web UI)
+      - UNRAID_API_KEY=${UNRAID_API_KEY:-your-unraid-api-key}
+      # Required: Tidbyt device ID (found in Tidbyt app)
+      - TIDBYT_DEVICE_ID=${TIDBYT_DEVICE_ID:-your-tidbyt-device-id}
+      # Required: Tidbyt API key (found in Tidbyt app settings)
+      - TIDBYT_API_KEY=${TIDBYT_API_KEY:-your-tidbyt-api-key}
+      # Optional: Update interval in seconds (default: 60)
+      - UPDATE_INTERVAL=${UPDATE_INTERVAL:-60}
+      # Optional: Timezone
+      - TZ=${TZ:-America/Los_Angeles}
+      # Optional: Which metrics to display (comma-separated: cpu,ram,array,temps,docker,vms,uptime,network)
+      - METRICS=${METRICS:-cpu,ram,array,uptime}
+      # Optional: Temperature unit (C or F)
+      - TEMP_UNIT=${TEMP_UNIT:-F}
