@@ -5,8 +5,8 @@ on:
     branches: [main]
 
 env:
-  REGISTRY: ${{ env.TS_NET }}
-  IMAGE: ${{ env.TS_NET }}/cmalec/tidbyt-unraid
+  REGISTRY: ${{ vars.TS_NET }}
+  IMAGE: ${{ vars.TS_NET }}/cmalec/tidbyt-unraid
 
 jobs:
   release:
