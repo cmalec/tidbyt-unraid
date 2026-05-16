@@ -5,7 +5,7 @@ UNRAID_URL = os.getenv("UNRAID_URL", "").rstrip("/")
 UNRAID_API_KEY = os.getenv("UNRAID_API_KEY", "")
 TIDBYT_DEVICE_ID = os.getenv("TIDBYT_DEVICE_ID", "")
 TIDBYT_API_KEY = os.getenv("TIDBYT_API_KEY", "")
-_update_interval_raw = os.getenv("UPDATE_INTERVAL", "60")
+_update_interval_raw = os.getenv("UPDATE_INTERVAL", "3600")
 try:
     UPDATE_INTERVAL = int(_update_interval_raw)
 except ValueError:

@@ -78,7 +78,7 @@ docker run -d \
   -e UNRAID_API_KEY=your-key \
   -e TIDBYT_DEVICE_ID=your-device-id \
   -e TIDBYT_API_KEY=your-api-key \
-  -e UPDATE_INTERVAL=60 \
+  -e UPDATE_INTERVAL=3600 \
   -e METRICS=cpu,ram,array,uptime \
   ghcr.io/cmalec/tidbyt-unraid:latest
 ```
@@ -93,7 +93,7 @@ To build locally instead, use `docker build -t tidbyt-unraid:latest .` and updat
 | `UNRAID_API_KEY`   | Yes      | —                      | API key for authentication                     |
 | `TIDBYT_DEVICE_ID` | Yes      | —                      | Your Tidbyt device ID                          |
 | `TIDBYT_API_KEY`   | Yes      | —                      | Your Tidbyt API key                            |
-| `UPDATE_INTERVAL`  | No       | `60`                   | Seconds between updates                        |
+| `UPDATE_INTERVAL`  | No       | `3600` (1 hour)        | Seconds between updates                        |
 | `METRICS`          | No       | `cpu,ram,array,uptime` | Comma-separated list of metrics                |
 | `TEMP_UNIT`        | No       | `F`                    | Temperature unit (`C` or `F`)                  |
 | `TZ`               | No       | `America/Los_Angeles`  | Timezone for logs                              |
